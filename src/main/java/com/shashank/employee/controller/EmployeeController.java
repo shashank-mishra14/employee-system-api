@@ -4,9 +4,12 @@ import com.shashank.employee.model.Employee;
 import com.shashank.employee.services.EmployeeService;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "https://localhost:3000")
 @RestController
@@ -26,6 +29,14 @@ public class EmployeeController {
 public List<Employee> getAllEmployees(){
         return employeeService.getAllemployees();
 
+}
+@DeleteMapping("/employees/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable Long id){
+        boolean deleted = false;
+        deleted =  employeeService.deleteEmployee(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted",deleted);
+        return ResponseEntity.ok(response);
 }
 }
 

@@ -42,4 +42,15 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .collect(Collectors.toList());
         return null;
     }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean deleteEmployee(Long id) {
+        EmployeeEntity employee = employeeRepositry.findById(id).get();
+        employeeRepositry.delete(employee);
+        return true;
+    }
 }
