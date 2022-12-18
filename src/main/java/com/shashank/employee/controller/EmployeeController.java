@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @CrossOrigin(origins = "https://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/" )
@@ -37,6 +39,21 @@ public List<Employee> getAllEmployees(){
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted",deleted);
         return ResponseEntity.ok(response);
+}
+@GetMapping("/employees/{id}")
+public ResponseEntity<Employee> getEmployeeById(){
+        Employee employee= null;
+        employee =  employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(employee);
+
+}
+
+@PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody  Employee employee){
+
+        employee = employeeService.updateEmployee(id, employee);
+        return  ResponseEntity.ok(employee);
+
 }
 }
 

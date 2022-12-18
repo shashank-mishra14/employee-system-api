@@ -1,12 +1,14 @@
 package com.shashank.employee.services;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.shashank.employee.entity.EmployeeEntity;
 import com.shashank.employee.model.Employee;
 import com.shashank.employee.repository.EmployeeRepositry;
+import jakarta.persistence.metamodel.SingularAttribute;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,5 +54,41 @@ public class EmployeeServiceImpl implements EmployeeService{
         EmployeeEntity employee = employeeRepositry.findById(id).get();
         employeeRepositry.delete(employee);
         return true;
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public Employee getEmployeeById(SingularAttribute<AbstractPersistable, Serializable> id) {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Employee getEmployeeById(Long id) {
+        EmployeeEntity employeeEntity= employeeRepositry.findById(id).get();
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeEntity, employee );
+        return employee;
+    }
+
+    /**
+     * @param id
+     * @param employee
+     * @return
+     */
+    @Override
+    public Employee updateEmployee(Long id, Employee employee) {
+       EmployeeEntity employeeEntity= employeeRepositry.findById(id).get();
+        employeeEntity.setEmailId(employee.getEmailId());
+        employeeEntity.setFirstName((employee.getFirstName()));
+        employeeEntity.setLastName(employeeEntity.getLastName());
+        employeeRepositry.save(employeeEntity);
+
+        return employee;
     }
 }
